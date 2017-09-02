@@ -1,0 +1,197 @@
+
+
+% ifxptex-doc.tex
+
+% !TeX encoding = UTF-8
+% !TeX program  = pdfLaTeX
+
+\RequirePackage{fix-cm}
+
+\documentclass[a4paper]{article}
+
+\usepackage{amsfonts}
+\usepackage[OT1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[UKenglish]{babel}
+\usepackage[babel]{microtype}
+\usepackage{etoolbox}
+\usepackage{amstext}
+\usepackage{booktabs}
+
+\AtBeginEnvironment{verbatim}{\microtypesetup{activate=false}}
+
+\newcommand\NormalSans{\normalfont\sffamily}
+\newcommand\pkg[1]{{\protect\NormalSans#1}}
+
+\newcommand\pTeX{p\kern-0.15em\TeX}
+\newcommand\e{\ensuremath{\varepsilon}}
+\newcommand\eTeX{\e-\TeX}
+\newcommand\epTeX{\e-\pTeX}
+\newcommand\upTeX{u\pTeX}
+\newcommand\eupTeX{\e-\upTeX}
+\newcommand\ApTeX{A\kern-0.1em\pTeX}
+\newcommand\dpx{DVIPDFM\ensuremath{x}}
+\newcommand\FooTeX{Foo\kern-0.1em\TeX}
+
+\newcommand\yes{\checkmark}
+\newcommand\UNI{(Unicode)}
+\newcommand\uni{{\footnotesize\UNI}}
+
+\begin{document}
+
+\title{The \pkg{ifxptex} package%
+  \thanks{CTAN Homepage: \texttt{https://ctan.org/pkg/ifxptex}}
+  \thanks{Repository: \texttt{https://github.com/Man-Ting-Fang/ifxptex}}}
+\author{Yue \textsc{Zhang}}
+\date{2017-09-02\quad v0.1a}
+
+\maketitle
+
+\begin{abstract}
+This package provides commands for detecting \pTeX\ and its derivatives (\epTeX,
+\upTeX, \eupTeX, and \ApTeX).
+\end{abstract}
+
+\section{Introduction}
+
+\pTeX\ is an extension of \TeX. It has several derivatives:
+\begin{itemize}
+\item \epTeX:  \( \text{\pTeX}  + \text{\eTeX}                  + \cdots \)
+\item \upTeX:  \( \text{\pTeX}  + \text{native Unicode support} + \cdots \)
+\item \eupTeX: \( \text{\epTeX} + \text{\upTeX}                          \)
+\item \ApTeX:\footnote{Full name: Asiatic \pTeX; synonym: \pTeX-ng; obsolete
+  names: Asian \pTeX, toua-\pTeX, toua-\TeX, toua\TeX, \ldots}
+               \( \text{\upTeX} + \text{\eTeX}                  + \cdots \)
+\end{itemize}
+Table \ref{tab:cmds} shows the command line commands for invoking them.%
+\footnote{Old implementations and other \TeX\ formats are not taken into
+consideration.}
+\vskip-10pt\relax
+\begin{table}[ht]\centering
+\caption{Commands for invoking *\pTeX}
+\label{tab:cmds}
+\medskip
+\begin{tabular}{cccc}
+\toprule
+        & \multicolumn{2}{c}{Command}       &                               \\
+          \cmidrule(lr){2-3}
+Engine  & Plain \TeX     & \LaTeX           & Output format(s)\footnotemark \\
+\midrule
+\pTeX   & \verb|ptex|    & n/a              & DVI (extended)                \\
+\epTeX  & \verb|eptex|   & \verb|platex|    & DVI (extended)                \\
+\upTeX  & \verb|uptex|   & n/a              & DVI (extended)                \\
+\eupTeX & \verb|euptex|  & \verb|uplatex|   & DVI (extended)                \\
+\ApTeX  & \verb|ptex-ng| & \verb|platex-ng| & DVI (extended) and PDF        \\
+\bottomrule
+\end{tabular}
+\end{table}
+\footnotetext{DVI files produced by *\pTeX\ can be converted to PDF files by
+\dpx, or some scripts for convenience (also use \dpx\ internally), but this
+subject is outside the scope of this document. (Note that \ApTeX\ outputs both
+DVI and PDF files directly.)}
+\noindent Both \LaTeX3 and the \pkg{ifptex} package (and its alias, the
+\pkg{ifuptex} package) have already provided commands for detecting some *\pTeX\
+engines. However, they do not satisfy the author, thus this package is written.
+For compatibility, all user commands provided by this package have an extra
+letter ``\verb|x|'' or ``\verb|X|''.
+
+\section{Naming conventions}
+
+There are two more naming conventions in this package:
+\begin{itemize}
+\item Suppose that there is a \TeX\ engine called \FooTeX, then both
+  \verb|FooTeX| and \verb|footex| are used in commands' names, but they refer to
+  different things: \verb|FooTeX| stands for the \FooTeX\ engine itself, while
+  \verb|footex| stands for all engines (mostly) compatible with \FooTeX.
+\item Furthermore, \verb|UniFooTeX| and \verb|unifootex| stand respectively for
+  \verb|FooTeX| and \verb|footex| when using Unicode as the internal encoding.
+  (Similarly, ``\UNI'' used in the following tables indicates that the engine
+  should be the corresponding \verb|UniFooTeX|.) (Note that \ApTeX\ always uses
+  Unicode as its internal encoding.)
+\end{itemize}
+
+\section{Usage}
+
+This package has no options, just load it as usual:
+\begin{itemize}
+\item \LaTeX: \verb|\usepackage{ifxptex}|
+\item Plain \TeX: \verb|\input ifxptex.sty|
+\end{itemize}
+
+\subsection{Conditionals}
+
+Table \ref{tab:cond} lists the conditionals provided by this package.
+\vskip-10pt\relax
+\begin{table}[ht]\centering
+\caption{Conditionals provided by this package}
+\label{tab:cond}
+\medskip
+\begin{tabular}{lccccc}
+\toprule
+                     & \multicolumn{5}{c}{True when using (one of)}      \\
+                       \cmidrule(lr){2-6}
+Conditional          & \pTeX & \epTeX & \upTeX     & \eupTeX    & \ApTeX \\
+\midrule
+\verb|\ifxpTeX|      & \yes  &        &            &            &        \\
+\verb|\ifxepTeX|     &       & \yes   &            &            &        \\
+\verb|\ifxupTeX|     &       &        & \yes       &            &        \\
+\verb|\ifxeupTeX|    &       &        &            & \yes       &        \\
+\verb|\ifxApTeX|     &       &        &            &            & \yes   \\
+\verb|\ifxUniupTeX|  &       &        & \yes\ \uni &            &        \\
+\verb|\ifxUnieupTeX| &       &        &            & \yes\ \uni &        \\
+\verb|\ifxptex|      & \yes  & \yes   & \yes       & \yes       & \yes   \\
+\verb|\ifxeptex|     &       & \yes   &            & \yes       &        \\
+\verb|\ifxuptex|     &       &        & \yes       & \yes       & \yes   \\
+\verb|\ifxeuptex|    &       &        &            & \yes       &        \\
+\verb|\ifxaptex|     &       &        &            &            & \yes   \\
+\verb|\ifxuniuptex|  &       &        & \yes\ \uni & \yes\ \uni & \yes   \\
+\verb|\ifxunieuptex| &       &        &            & \yes\ \uni &        \\
+\bottomrule
+\end{tabular}
+\end{table}
+\noindent These conditionals can be used as usual. For example:
+
+\medskip
+
+\noindent{\ttfamily\hskip2em}%
+\verb|\ifxeupTeX|%
+  \ensuremath{\langle}material     for \eupTeX\ensuremath{\rangle}%
+\verb|\else|%
+  \ensuremath{\langle}material not for \eupTeX\ensuremath{\rangle}%
+\verb|\fi|
+
+\subsection{Declarations}
+
+Table \ref{tab:decl} lists the declarations provided by this package. (This
+table is very similar to Table \ref{tab:cond}.)
+\vskip-10pt\relax
+\begin{table}[ht]\centering\advance\tabcolsep by -0.1pt\relax
+\caption{Declarations provided by this package}
+\label{tab:decl}
+\medskip
+\begin{tabular}{lccccc}
+\toprule
+                          & \multicolumn{5}{c}{Reports an error if the engine in
+                              use is not (one of)}                            \\
+                            \cmidrule(lr){2-6}
+Declaration               & \pTeX & \epTeX & \upTeX     & \eupTeX    & \ApTeX \\
+\midrule
+\verb|\RequireXpTeX|      & \yes  &        &            &            &        \\
+\verb|\RequireXepTeX|     &       & \yes   &            &            &        \\
+\verb|\RequireXupTeX|     &       &        & \yes       &            &        \\
+\verb|\RequireXeupTeX|    &       &        &            & \yes       &        \\
+\verb|\RequireXApTeX|     &       &        &            &            & \yes   \\
+\verb|\RequireXUniupTeX|  &       &        & \yes\ \uni &            &        \\
+\verb|\RequireXUnieupTeX| &       &        &            & \yes\ \uni &        \\
+\verb|\RequireXptex|      & \yes  & \yes   & \yes       & \yes       & \yes   \\
+\verb|\RequireXeptex|     &       & \yes   &            & \yes       &        \\
+\verb|\RequireXuptex|     &       &        & \yes       & \yes       & \yes   \\
+\verb|\RequireXeuptex|    &       &        &            & \yes       &        \\
+\verb|\RequireXaptex|     &       &        &            &            & \yes   \\
+\verb|\RequireXuniuptex|  &       &        & \yes\ \uni & \yes\ \uni & \yes   \\
+\verb|\RequireXunieuptex| &       &        &            & \yes\ \uni &        \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\end{document}
