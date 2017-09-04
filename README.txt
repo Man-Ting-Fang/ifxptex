@@ -6,7 +6,7 @@ CTAN Homepage: https://ctan.org/pkg/ifxptex
 
 Repository: https://github.com/Man-Ting-Fang/ifxptex
 
-Version: 2017-09-02 v0.1a
+Version: 2017-09-04 v0.1b
 
 Copyright 2017 Yue ZHANG
 
