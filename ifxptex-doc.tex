@@ -20,6 +20,8 @@
 
 \AtBeginEnvironment{verbatim}{\microtypesetup{activate=false}}
 
+\abovetopsep=\medskipamount
+
 \newcommand\NormalSans{\normalfont\sffamily}
 \newcommand\pkg[1]{{\protect\NormalSans#1}}
 
@@ -30,7 +32,7 @@
 \newcommand\upTeX{u\pTeX}
 \newcommand\eupTeX{\e-\upTeX}
 \newcommand\ApTeX{A\kern-0.1em\pTeX}
-\newcommand\dpx{DVIPDFM\ensuremath{x}}
+\newcommand\dpx{DVI\-PDFM\ensuremath{x}}
 \newcommand\FooTeX{Foo\kern-0.1em\TeX}
 
 \newcommand\yes{\checkmark}
@@ -43,7 +45,7 @@
   \thanks{CTAN Homepage: \texttt{https://ctan.org/pkg/ifxptex}}
   \thanks{Repository: \texttt{https://github.com/Man-Ting-Fang/ifxptex}}}
 \author{Yue \textsc{Zhang}}
-\date{2017-09-04\quad v0.1b}
+\date{2017-12-27\quad v0.2}
 
 \maketitle
 
@@ -67,10 +69,9 @@ Table \ref{tab:cmds} shows the command line commands for invoking them.%
 \footnote{Old implementations and other \TeX\ formats are not taken into
 consideration.}
 \vskip-10pt\relax
-\begin{table}[ht]\centering
+\begin{table}[!ht]\centering
 \caption{Commands for invoking *\pTeX}
 \label{tab:cmds}
-\medskip
 \begin{tabular}{cccc}
 \toprule
         & \multicolumn{2}{c}{Command}       &                               \\
@@ -123,10 +124,9 @@ This package has no options, just load it as usual:
 
 Table \ref{tab:cond} lists the conditionals provided by this package.
 \vskip-10pt\relax
-\begin{table}[ht]\centering
+\begin{table}[!ht]\centering
 \caption{Conditionals provided by this package}
 \label{tab:cond}
-\medskip
 \begin{tabular}{lccccc}
 \toprule
                      & \multicolumn{5}{c}{True when using (one of)}      \\
@@ -166,10 +166,9 @@ Conditional          & \pTeX & \epTeX & \upTeX     & \eupTeX    & \ApTeX \\
 Table \ref{tab:decl} lists the declarations provided by this package. (This
 table is very similar to Table \ref{tab:cond}.)
 \vskip-10pt\relax
-\begin{table}[ht]\centering\advance\tabcolsep by -0.1pt\relax
+\begin{table}[!ht]\centering\advance\tabcolsep by -0.1pt\relax
 \caption{Declarations provided by this package}
 \label{tab:decl}
-\medskip
 \begin{tabular}{lccccc}
 \toprule
                           & \multicolumn{5}{c}{Reports an error if the engine in
